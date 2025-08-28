@@ -1,0 +1,6 @@
+default attendance 
+report 
+card
+quarter and semester
+banch data(students)
+Exam

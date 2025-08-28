@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import StudentDashboard from './pages/student/StudentDashboard';
+import TeacherDashboard from './pages/teacher/TeacherDashboard';
+import LoginPage from './pages/LoginPage';
 
-function App() {
+const App = () => {
+  const { currentRole } = useSelector(state => state.user);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Router>
+      {currentRole === null &&
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      }
+
+      {currentRole === "Admin" &&
+        <>
+          <AdminDashboard />
+        </>
+      }
+
+      {currentRole === "Student" &&
+        <>
+          <StudentDashboard />
+        </>
+      }
+
+      {currentRole === "Teacher" &&
+        <>
+          <TeacherDashboard />
+        </>
+      }
+    </Router>
+  )
 }
 
 export default App;
